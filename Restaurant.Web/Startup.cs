@@ -30,6 +30,24 @@ namespace Restaurant.Web
             SD.ProductAPIBase = Configuration["ServiceUrls:ProductAPI"];
             services.AddScoped<IProductService, ProductService>();
             services.AddControllersWithViews();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "Cookies";
+                options.DefaultChallengeScheme = "oidc";
+            })
+                .AddCookie("Cookies", c => c.ExpireTimeSpan = TimeSpan.FromMinutes(10))
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    options.Authority = Configuration["ServiceUrls:IdentityAPI"];
+                    options.GetClaimsFromUserInfoEndpoint = true;
+                    options.ClientId = "restaurant";
+                    options.ClientSecret = "secret";
+                    options.ResponseType = "code";
+                    options.TokenValidationParameters.NameClaimType = "name";
+                    options.TokenValidationParameters.RoleClaimType = "role";
+                    options.Scope.Add("restaurant");
+                    options.SaveTokens = true;
+                });
 
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +65,7 @@ namespace Restaurant.Web
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+           
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

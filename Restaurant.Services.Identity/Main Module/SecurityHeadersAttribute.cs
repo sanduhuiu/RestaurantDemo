@@ -10,7 +10,7 @@ namespace IdentityServerHost.Quickstart.UI
     public class SecurityHeadersAttribute : ActionFilterAttribute
     {
         public override void OnResultExecuting(ResultExecutingContext context)
-        {
+            {
             var result = context.Result;
             if (result is ViewResult)
             {
