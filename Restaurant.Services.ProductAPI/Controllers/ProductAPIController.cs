@@ -16,7 +16,7 @@ namespace Restaurant.Services.ProductAPI.Controllers
             this._response = new ResponseDto();
         }
 
-        [Authorize]
+        
         [HttpGet]
         public async Task<object> Get()
         {
@@ -36,7 +36,7 @@ namespace Restaurant.Services.ProductAPI.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        [Authorize]
+        
         public async Task<object> Get(int id)
         {
             try
