@@ -50,9 +50,11 @@ namespace Restaurant.Services.Identity
             services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddScoped<IProfileService, ProfileService>();
             builder.AddDeveloperSigningCredential();
-
+            
             services.AddControllersWithViews();
         }
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
@@ -73,6 +75,7 @@ namespace Restaurant.Services.Identity
             app.UseRouting();
             app.UseIdentityServer();
             app.UseAuthorization();
+           
             dbInitializer.Initialize();
             app.UseEndpoints(endpoints =>
             {
